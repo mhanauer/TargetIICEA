@@ -14,12 +14,9 @@ set.seed(123)
 nTrainedSamp = c(10:20)
 nTrained = sample(nTrainedSamp, 1) 
 id = 1:nTrained[1]
-
-
 nServedSamp = c(10:30)
 nServed = sample(nServedSamp, 1)
 served = rep(sample(nServedSamp, length(id)))
-
 costDat = data.frame(id = id, served = served)
 head(costDat)
 ```
@@ -64,14 +61,17 @@ wagesPerYearLost = as.vector(wagesPerYearLost)
 wagesPerYearLost
 ```
 Now we need to wages to rep for the length of time 
+Because I want the wages to be the same for each time point
 ```{r}
+library(FinCal)
 output = NULL
 for(i in length(id)){
-  output[[i]] = NPV(rep(0, length(id)), cf = rep(wagesPerYearLost[[i]], length(id)), times = time[[i]])
+  npv(r = .03, wagesPerYearLost[[i]])
 }
 
-NPV(0, , times = c(1,2,3), i = .03)
-51.75*2*3+69*3
+# This works.  So why can't I run a loop over this????
+npv(r = .03, rep(wagesPerYearLost[1], time[1]))
+
 ```
 
 
