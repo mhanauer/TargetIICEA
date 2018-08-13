@@ -6,20 +6,20 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+Load packages
+```{r}
+library(FinCal)
+```
 SNET Cost Effect Analysis (CEA)
 Need to simluate the number of people trained and then an approximate number of people that they will serve.  
-
 ```{r}
 set.seed(123)
 nTrainedSamp = c(10:20)
 nTrained = sample(nTrainedSamp, 1) 
 id = 1:nTrained[1]
-
-
 nServedSamp = c(10:30)
 nServed = sample(nServedSamp, 1)
 served = rep(sample(nServedSamp, length(id)))
-
 costDat = data.frame(id = id, served = served)
 head(costDat)
 ```
@@ -64,21 +64,22 @@ wagesPerYearLost = as.vector(wagesPerYearLost)
 wagesPerYearLost
 ```
 Now we need to wages to rep for the length of time 
+Because I want the wages to be the same for each time point
 ```{r}
 output = NULL
-for(i in length(id)){
-  output[[i]] = NPV(rep(0, length(id)), cf = rep(wagesPerYearLost[[i]], length(id)), times = time[[i]])
+for(i in 1:length(id)){
+  output[[i]] = npv(r = .03, rep(wagesPerYearLost[[i]], time[[i]]))
 }
+output
 
-NPV(0, , times = c(1,2,3), i = .03)
-51.75*2*3+69*3
-```
+# So it is only working for the last one.
+
+# This works.  So why can't I run a loop over this????
+npv(r = .03, rep(wagesPerYearLost[13], time[13]))
 
 
-Need to get indiviudal estimates for 
-```{r}
-library(FinancialMath)
-
+length(wagesPerYearLost)
+length(time)
 ```
 
 
